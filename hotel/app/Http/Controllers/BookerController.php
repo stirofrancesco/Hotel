@@ -45,14 +45,14 @@ class BookerController extends Controller
         $booker->surname = $request->surname;
         $booker->email = $request->email;
 
-    //    $reservation->booker_id = booker->id;
-        $reservation->start_date = request->start_date;
-        $reservation->end_date = request->end_date;
-        $reservation->arrival_time = request->arrival_time;
-        $reservation->state = request->state;
-
+      //          $reservation->booker_id = booker->id;
+      /*          $reservation->start_date = request->start_date;
+                $reservation->end_date = request->end_date;
+                $reservation->arrival_time = request->arrival_time;
+                $reservation->state = request->state;
+*/
         $booker->save();
-        $reservation->save();
+//        $reservation->save();
 
     }
 
