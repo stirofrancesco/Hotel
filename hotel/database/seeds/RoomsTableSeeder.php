@@ -13,7 +13,7 @@ class RoomsTableSeeder extends Seeder
     public function run()
     {
       $room = new Room();
-      $room->type_id = '18';
+      $room->type_id = \App\RoomType::where('');
       $room->numero = '10';
       $room->piano = '1';
       $room->save();

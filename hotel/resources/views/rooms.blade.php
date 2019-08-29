@@ -15,7 +15,7 @@
                     <td>{{$room->standard_price}}</td>
                     <td>{{$room->free}}</td>
                     <td>
-                        <a href="book/{{$room->type_id}}">
+                        <a href="book/{{$room->type_id}}?{{ Request::getQueryString() }}">
                             book
                         </a>
                     </td>

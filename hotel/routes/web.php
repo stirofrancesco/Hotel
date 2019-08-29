@@ -16,7 +16,7 @@
 //});
 
 Route::post('/booker','BookerController@store');
-Route::post('/reservation','ReservationController@store');
+Route::post('/reservation/{id_type}','ReservationController@store')->name('reservation');
 
 Route::get('/', function() {
     return view('index');
@@ -100,5 +100,9 @@ Route::get('/rooms', function(Request $request) {
 })->name('rooms');
 
 Route::get('/book/{type_id}', function(Request $request, $type_id) {
-    return $type_id;
-});
+    return view('booking', [
+      'type_id' => $type_id,
+      'checkin' => $request->all()['checkin'],
+      'checkout' => $request->all()['checkout'],
+    ]);
+})->name('book');

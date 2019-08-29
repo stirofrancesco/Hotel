@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\ReservedRooms;
+use App\Booker;
 use App\Reservation;
 use Illuminate\Http\Request;
 
@@ -33,14 +35,26 @@ class ReservationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id_type)
     {
       $reservation = new Reservation();
-      $reservation->start_date = request->start_date;
-      $reservation->end_date = request->end_date;
-      $reservation->arrival_time = request->arrival_time;
-      $reservation->state = request->state;
+      $booker = new Booker();
+      $booker->name = $request->name;
+      $booker->surname = $request->surname;
+      $booker->email = $request->email;
+      $booker->save();
+      $reservation->booker_id = $booker->id;
+      $reservation->start_date = $request->start_date;
+      $reservation->end_date = $request->end_date;
+      $reservation->arrival_time = $request->arrival_time;
+      $reservation->state = "Booked";
       $reservation->save();
+      $reserved = new ReservedRooms();
+      $reserved->id_type = $id_type;
+      $reserved->reservation_id = $reservation->id;
+      $reserved->quantity = 1;
+      $reserved->save();
+      return "ciao";
     }
 
     /**

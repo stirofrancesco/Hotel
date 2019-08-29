@@ -17,6 +17,7 @@ class CreateReservedroomsTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('id_type')->references('id')->on('roomtype');
             $table->bigInteger('reservation_id')->references('id')->on('reservations');
+            $table->integer('quantity');
             $table->timestamps();
         });
 
