@@ -14,8 +14,8 @@ class BookersTableSeeder extends Seeder
     public function run()
     {
         DB::table('bookers')->insert([
-            'name' => Str::random(10),
-            'surname' => Str::random(15),
+            'name' => 'Jessie',
+            'surname' => 'Mcwall',
             'email' => Str::random(10).'@gmail.com',
         ]);
     }
