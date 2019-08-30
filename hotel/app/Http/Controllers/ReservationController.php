@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\ReservedRooms;
+use App\ReservedRoom;
 use App\Booker;
 use App\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
@@ -37,6 +38,7 @@ class ReservationController extends Controller
      */
     public function store(Request $request, $id_type)
     {
+      DB::beginTransaction();
       $reservation = new Reservation();
       $booker = new Booker();
       $booker->name = $request->name;
@@ -49,12 +51,13 @@ class ReservationController extends Controller
       $reservation->arrival_time = $request->arrival_time;
       $reservation->state = "Booked";
       $reservation->save();
-      $reserved = new ReservedRooms();
+      $reserved = new ReservedRoom();
       $reserved->id_type = $id_type;
       $reserved->reservation_id = $reservation->id;
-      $reserved->quantity = 1;
+      $reserved->rooms_count = 1;
       $reserved->save();
-      return "ciao";
+      DB::commit();
+      return redirect('/success');
     }
 
     /**

@@ -70,7 +70,7 @@ Route::get('/rooms', function(Request $request) {
 //    $roomTypes = \App\RoomType::find($roomTypeIds);
 
     $rooms = DB::select('
-        SELECT type_id, standard_price, CASE WHEN (
+        SELECT type_id, description, standard_price, CASE WHEN (
             SELECT count(reservations.id)
             FROM (reserved_rooms
                 INNER JOIN reservations
@@ -87,7 +87,7 @@ Route::get('/rooms', function(Request $request) {
         ) END as free
         FROM rooms
         INNER JOIN room_types ON room_types.id = rooms.type_id
-        GROUP BY type_id, standard_price
+        GROUP BY type_id, standard_price, description
     ',
     [
         $request->all()['checkin'],
@@ -100,9 +100,16 @@ Route::get('/rooms', function(Request $request) {
 })->name('rooms');
 
 Route::get('/book/{type_id}', function(Request $request, $type_id) {
+    $roomType = App\RoomType::find($type_id);
     return view('booking', [
       'type_id' => $type_id,
       'checkin' => $request->all()['checkin'],
       'checkout' => $request->all()['checkout'],
+      'description' => $roomType->description,
+      'standard_price' => $roomType->standard_price,
     ]);
 })->name('book');
+
+Route::get('/success', function() {
+  return 'Booking successfull';
+});
